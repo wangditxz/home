@@ -1,0 +1,37 @@
+name: deploy
+# 9ce221f264d8667c11ff1a3fd1941585e5eaad08
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [14]
+        GITHUB_TOKEN: 9ce221f264d8667c11ff1a3fd1941585e5eaad08
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Setup node env
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install dependencies
+        run: npm
+
+      - name: Generate
+        run: npm run generate
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ matrix.GITHUB_TOKEN }}
+          publish_dir: ./dist
