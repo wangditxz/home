@@ -13,7 +13,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         node: [14]
-        GITHUB_TOKEN: 9ce221f264d8667c11ff1a3fd1941585e5eaad08
+        GITHUB_TOKEN: [9ce221f264d8667c11ff1a3fd1941585e5eaad08]
 
     steps:
       - name: Checkout
