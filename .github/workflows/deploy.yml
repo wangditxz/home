@@ -13,7 +13,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         node: [14]
-        GITHUB_TOKEN: [d8c2ba696da0fdf16394cbad36b1533196b52865]
+        GITHUB_TOKEN: [4092ab775296a5b377372d9d8ef937adeda48ab4]
 
     steps:
       - name: Checkout
@@ -33,5 +33,5 @@ jobs:
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: 'd8c2ba696da0fdf16394cbad36b1533196b52865'
+          github_token: '4092ab775296a5b377372d9d8ef937adeda48ab4'
           publish_dir: ./dist
