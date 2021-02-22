@@ -33,5 +33,5 @@ jobs:
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ matrix.GITHUB_TOKEN }}
+          github_token: 'd8c2ba696da0fdf16394cbad36b1533196b52865'
           publish_dir: ./dist
