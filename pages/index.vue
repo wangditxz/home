@@ -1,21 +1,13 @@
 <template>
     <div class="container">
         <div>
-            <Logo />
-            <h1 class="title">
-                一个惊艳的记数器
-            </h1>
-            <h1 class="title">
-                ci部署
-            </h1>
-            <p>{{ count }}</p>
-            <button @click="increase">记数</button>
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import Snows from '@/common/js/snow';
 
 export default Vue.extend({
     data: function() {
@@ -23,10 +15,19 @@ export default Vue.extend({
             count: 0
         };
     },
+    mounted() {
+        console.log('yyy');
+//         new Snows({
+//     isRain: true,
+//     num: 300,
+//     maxSpeed: 15
+// })
+new Snows({
+    isRain: false,
+    num: 150
+})
+    },
     methods: {
-        increase() {
-            this.count++;
-        }
     },
 });
 </script>
@@ -39,6 +40,7 @@ export default Vue.extend({
     justify-content: center;
     align-items: center;
     text-align: center;
+    background-color: pink;
 }
 
 .title {
