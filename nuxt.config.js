@@ -1,4 +1,22 @@
 export default {
+    // vue: {
+    //     configureWebpack: {
+    //         module: {
+    //             rules: [
+    //                 {
+    //                     // Exclude `js` files to keep "css" loader working as it injects
+    //                     // its runtime that would otherwise be processed through "file" loader.
+    //                     // Also exclude `html` and `json` extensions so they get processed
+    //                     // by webpacks internal loaders.
+    //                     // exclude: [/^$/, /\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
+    //                     // type: 'asset/resource',
+    //                     test: /\.glb$/,
+    //                     loader: 'url-loader'
+    //                 }
+    //             ]
+    //         }
+    //     }
+    // },
     // Target: https://go.nuxtjs.dev/config-target
     target: 'static',
     router: {
@@ -50,6 +68,17 @@ export default {
 
     // Build Configuration: https://go.nuxtjs.dev/config-build
     build: {
-        transpile: [/^element-ui/]
+        transpile: [/^element-ui/],
+        standalone: true,
+        extend(config, ctx) {
+            // 添加可编译的glb和glbf文件类型
+            const assetsLoader = config.module.rules.find(rule => {
+
+                return rule.test.test('.png');
+            });
+            assetsLoader.test = /\.(png|jpe?g|gif|svg|webp|avif|glb|gltf)$/i 
+      
+            return config;
+          }
     }
 }
