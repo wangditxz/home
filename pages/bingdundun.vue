@@ -9,7 +9,9 @@ import * as THREE from 'three';
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 
-import GLTFLoader from '@/assets/GLTFLoader';
+import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
+// import { TWEEN } from "three/examples/jsm/libs/tween.module.min.js";
+
 
 import landModel from '@/assets/models/land.glb';
 import flagModel from '@/assets/models/flag.glb';
@@ -240,32 +242,34 @@ export default {
       scene.add(fiveCyclesGroup);
 
       // 创建雪花
-    //   let texture = new THREE.TextureLoader().load(snow);
-    //   let geometry = new THREE.Geometry();
-    //   let pointsMaterial = new THREE.PointsMaterial({
-    //     size: 1,
-    //     transparent: true,
-    //     opacity: 0.8,
-    //     map: texture,
-    //     blending: THREE.AdditiveBlending,
-    //     sizeAttenuation: true,
-    //     depthTest: false
-    //   });
-    //   let range = 100;
-    //   let vertices = []
-    //   for (let i = 0; i < 1500; i++) {
-    //     let vertice = new THREE.Vector3(Math.random() * range - range / 2, Math.random() * range * 1.5, Math.random() * range - range / 2);
-    //     // 纵向移动速度
-    //     vertice.velocityY = 0.1 + Math.random() / 3;
-    //     // 横向移动速度
-    //     vertice.velocityX = (Math.random() - 0.5) / 3;
-    //     // 将顶点加入几何
-    //     geometry.vertices.push(vertice);
-    //   }
-    //   geometry.center();
-    //   points = new THREE.Points(geometry, pointsMaterial);
-    //   points.position.y = -30;
-    //   scene.add(points);
+      let texture = new THREE.TextureLoader().load(snow);
+      let geometry = new THREE.BufferGeometry();
+      let pointsMaterial = new THREE.PointsMaterial({
+        size: 1,
+        transparent: true,
+        opacity: 0.8,
+        map: texture,
+        blending: THREE.AdditiveBlending,
+        sizeAttenuation: true,
+        depthTest: false
+      });
+      let range = 100;
+      let vertices = []
+      for (let i = 0; i < 1500; i++) {
+        let vertice = new THREE.Vector3(Math.random() * range - range / 2, Math.random() * range * 1.5, Math.random() * range - range / 2);
+        // 纵向移动速度
+        vertice.velocityY = 0.1 + Math.random() / 3;
+        // 横向移动速度
+        vertice.velocityX = (Math.random() - 0.5) / 3;
+        // 将顶点加入几何
+        vertices.push(vertice);
+      }
+          geometry.setFromPoints(vertices)
+
+      geometry.center();
+      const points = new THREE.Points(geometry, pointsMaterial);
+      points.position.y = -30;
+      scene.add(points);
 
     const controls = new OrbitControls(camera, renderer.domElement);
       controls.target.set(0, 0, 0);
@@ -279,12 +283,26 @@ export default {
       controls.minAzimuthAngle = -.6;
       controls.maxAzimuthAngle = .6;
     //   window.addEventListener('resize', onWindowResize, false);
-
+    // console.log(points.geometry.attributes.position);
         function animate() {
             requestAnimationFrame( animate );
-            cube.rotation.x += 0.01;
-            cube.rotation.y += 0.01;
-            renderer.render( scene, camera );
+                  renderer.render(scene, camera);
+        //           controls && controls.update();
+        //           TWEEN && TWEEN.update();
+        //           fiveCyclesGroup && (fiveCyclesGroup.rotation.y += .01);
+                  let vertices = points.geometry.attributes.position.array;
+              for ( var i = 0, l = 1500 * 3; i < l; i ++ ) {
+
+                if (i % 3 === 1) {
+                  vertices[ i ] += 0.1 + Math.random() / 3; 
+                }
+                if (i % 3 === 0) {
+                  vertices[ i ] += (Math.random() - 0.5) / 3;
+                }
+
+}
+        //           // 顶点变动之后需要更新，否则无法实现雨滴特效
+                  points.geometry.attributes.position.needsUpdate = true;
         }
         animate();
 
